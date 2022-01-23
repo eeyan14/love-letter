@@ -1,0 +1,39 @@
+.card {
+  --height-multiplier: 1.4;
+  background: #F4DE9F;
+  margin-bottom: var(--base-spacing);
+  border-radius: var(--base-spacing);
+  box-sizing: border-box;
+}
+
+.card.size-regular {
+  --width-regular: 300px;
+  width: var(--width-regular);
+  height: calc(var(--height-multiplier) * var(--width-regular));
+}
+
+.card.size-small {
+  --width-small: 100px;
+  width: var(--width-small);
+  height: calc(var(--height-multiplier) * var(--width-small));
+}
+
+.card.character-unknown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:not(.character-unknown) {
+  padding: calc(var(--base-spacing) * 2);
+}
+
+.card img.card-back {
+  width: 70%;
+  height: auto;
+}
+
+.card span.medieval {
+  font-size: 1.2rem;
+  font-family: var(--font-medieval);
+}
