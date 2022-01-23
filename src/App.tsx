@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+
+import Card from "./components/Card";
 
 function App() {
+  const numPlayers = 4;
+
+  const renderOtherPlayers = () => {
+    let numPlayersArr = []
+    for (let i = 0; i < numPlayers - 1; i++) {
+      numPlayersArr.push(i)
+    }
+    return numPlayersArr.map(key => {
+      return <Card key={key} character="unknown" size="small" />
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="love-letter-app">
+      <header>
+        <h1>Love Letter</h1>
       </header>
+
+      <div className="love-letter-app-main">
+        <section>
+        {renderOtherPlayers()}
+        </section>
+
+        <section>
+          <Card character="guard" size="regular" />
+        </section>
+
+        <section>
+          <Card character="reference" size="regular" />
+        </section>
+      </div>
     </div>
   );
 }
