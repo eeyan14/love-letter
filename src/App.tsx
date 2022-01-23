@@ -1,20 +1,19 @@
 import React from "react";
 import "./App.css";
-
 import Card from "./components/Card";
 
 function App() {
   const numPlayers = 4;
 
   const renderOtherPlayers = () => {
-    let numPlayersArr = []
+    let numPlayersArr = [];
     for (let i = 0; i < numPlayers - 1; i++) {
-      numPlayersArr.push(i)
+      numPlayersArr.push(i);
     }
-    return numPlayersArr.map(key => {
-      return <Card key={key} character="unknown" size="small" />
-    })
-  }
+    return numPlayersArr.map((key) => {
+      return <Card key={key} character="unknown" size="small" />;
+    });
+  };
 
   return (
     <div className="love-letter-app">
@@ -23,9 +22,7 @@ function App() {
       </header>
 
       <div className="love-letter-app-main">
-        <section>
-        {renderOtherPlayers()}
-        </section>
+        <section>{renderOtherPlayers()}</section>
 
         <section>
           <Card character="guard" size="regular" />
