@@ -44,9 +44,8 @@ test("deal functions correctly", () => {
   expect(state.deck.length).toBe(totalCards - totalPlayers - 1);
 
   // check removed card
-  expect(Card[state.removed]).not.toBeUndefined()
+  expect(Card[state.removed]).not.toBeUndefined();
 
   // check for empty discard
-  expect(state.discard.length).toBe(0)
-
+  expect(state.discard.length).toBe(0);
 });

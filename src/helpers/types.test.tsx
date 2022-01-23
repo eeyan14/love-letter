@@ -1,9 +1,9 @@
-import {cardAmounts, validateAmounts} from './types'
+import { cardAmounts, validateAmounts } from "./types";
 
 test("validateAmounts matches correctly", () => {
-  expect(() => validateAmounts(cardAmounts)).not.toThrow()
-})
+  expect(() => validateAmounts(cardAmounts)).not.toThrow();
+});
 
 test("validateAmounts error with incorrect array", () => {
-  expect(() => validateAmounts([])).toThrow()
-})
+  expect(() => validateAmounts([])).toThrow();
+});

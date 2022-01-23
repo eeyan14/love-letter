@@ -1,4 +1,4 @@
-name: tests-ts
+name: tests
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - "*"
 
 jobs:
-  unit-tests:
+  unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
