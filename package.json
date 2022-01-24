@@ -21,9 +21,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
-    "lint": "tsc",
-    "format": "yarn prettier --write .",
-    "format:check": "yarn prettier --check ."
+    "lint": "yarn lint:tsc && yarn lint:eslint",
+    "lint:tsc": "tsc",
+    "lint:eslint": "yarn run eslint .",
+    "lint:format": "yarn prettier --check .",
+    "lint:fix": "yarn run eslint --fix . && yarn prettier --write ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -38,6 +46,10 @@
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1"
   }
 }
