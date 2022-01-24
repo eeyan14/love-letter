@@ -31,7 +31,7 @@ function App() {
         <div className="column left">
           <section className="deck">
             <p>Played/Discarded</p>
-            <Card character="guard" size="s" hideDescription={true} />
+            <Card character="baron" size="s" hideDescription={true} />
           </section>
 
           <section className="deck">

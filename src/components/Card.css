@@ -5,6 +5,7 @@
   --width-m: 200px;
   --width-l: 250px;
   --width-xl: 300px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,7 +47,13 @@
 }
 
 .card:not(.character-unknown) {
-  padding: calc(var(--base-spacing) * 2);
+  padding: calc(var(--base-spacing) * 1.5);
+}
+
+.card.size-xs:not(.character-unknown),
+.card.size-s:not(.character-unknown),
+.card.size-m:not(.character-unknown) {
+  padding: var(--base-spacing);
 }
 
 .card img.card-back {
@@ -54,7 +61,64 @@
   height: auto;
 }
 
-.card span.medieval {
+.card .medieval {
   font-size: 1.2rem;
   font-family: var(--font-medieval);
+}
+
+.card .card-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: var(--base-spacing);
+}
+
+.card .card-header p.card-title {
+  margin: 0;
+  margin-left: calc(var(--base-spacing) / 2);
+  font-size: 2rem;
+}
+
+.card.size-xs .card-header p.card-title,
+.card.size-s .card-header p.card-title,
+.card.size-m .card-header p.card-title {
+  font-size: 1.2rem;
+}
+
+.card .point-container {
+  position: relative;
+}
+
+.card .point-container img {
+  width: 50px;
+  height: auto;
+}
+
+.card.size-xs .point-container img,
+.card.size-s .point-container img,
+.card.size-m .point-container img {
+  width: 30px;
+}
+
+.card .point-container p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  margin: 0;
+}
+
+.card.size-xs .point-container p,
+.card.size-s .point-container p,
+.card.size-m .point-container p {
+  font-size: 0.6rem;
+}
+
+.card .character-color {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: calc(var(--base-spacing) * 2);
+  border-radius: 0 0 var(--base-spacing) var(--base-spacing);
 }
