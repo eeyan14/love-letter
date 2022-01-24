@@ -2,13 +2,6 @@
   position: relative;
 }
 
-.reference-card-container .card {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  transform: translateY(calc(100% + var(--base-spacing) * 2));
-}
-
 .reference-card-container button {
   display: inline-block;
   border: none;
@@ -27,4 +20,30 @@
 
 .reference-card-container button.selected {
   background: #006af5;
+}
+
+.reference-card-container .popup {
+  z-index: 1;
+  background: #e9ecef;
+  padding: var(--base-spacing);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translateY(calc(100% + var(--base-spacing)));
+}
+
+.reference-card-container .popup .popup-arrow {
+  position: absolute;
+  right: var(--base-spacing);
+  top: 0;
+  transform: translateY(-100%);
+  width: 0;
+  height: 0;
+  border-bottom: var(--base-spacing) solid #e9ecef;
+  border-left: var(--base-spacing) solid transparent;
+  border-right: var(--base-spacing) solid transparent;
+}
+
+.reference-card-container .popup .card {
+  margin-bottom: 0;
 }

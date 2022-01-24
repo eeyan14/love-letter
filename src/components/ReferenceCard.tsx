@@ -3,7 +3,7 @@ import Card from "./Card";
 import "./ReferenceCard.css";
 
 const ReferenceCard = () => {
-  const [showReferenceCard, setShowReferenceCard] = useState<boolean>(false);
+  const [showReferenceCard, setShowReferenceCard] = useState<boolean>(true);
 
   return (
     <div className="reference-card-container">
@@ -14,7 +14,12 @@ const ReferenceCard = () => {
         Reference Card
       </button>
 
-      {showReferenceCard && <Card character="reference" size="xl" />}
+      {showReferenceCard && (
+        <div className="popup">
+          <div className="popup-arrow" />
+          <Card character="reference" size="xl" />
+        </div>
+      )}
     </div>
   );
 };
