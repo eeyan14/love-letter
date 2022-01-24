@@ -1,38 +1,82 @@
-.App {
-  text-align: center;
+:root {
+  --base-spacing: 16px;
+  --font-cursive: "Dancing Script", cursive;
+  --font-medieval: "UnifrakturMaguntia", cursive;
+  --font-standard: "Poppins", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.love-letter-app {
+  width: 100vw;
   min-height: 100vh;
+  height: 100%;
+  background: #fdfaf6;
+  display: flex;
+  flex-direction: column;
+}
+
+.love-letter-app header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--base-spacing);
+}
+
+.love-letter-app h1 {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-cursive);
+  font-size: 2rem;
+}
+
+.love-letter-app p {
+  margin: 0;
+  margin-bottom: calc(var(--base-spacing) / 2);
+  padding: 0;
+  font-size: var(--font-standard);
+  font-size: 0.8rem;
+}
+
+.love-letter-app .help {
+  position: absolute;
+  right: var(--base-spacing);
+  top: var(--base-spacing);
+}
+
+.love-letter-app main {
+  display: flex;
+}
+
+.love-letter-app .column {
+  display: flex;
+  flex-direction: column;
+}
+
+.love-letter-app .column.left {
+  align-items: center;
+  justify-content: center;
+}
+
+.love-letter-app .column.right {
+  flex: 1;
+}
+
+.love-letter-app section {
+  display: flex;
+  padding: var(--base-spacing) calc(var(--base-spacing) * 2);
+}
+
+.love-letter-app section.deck {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.love-letter-app section.other-players,
+.love-letter-app section.my-cards {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: calc(var(--base-spacing) * 3);
 }
