@@ -15,6 +15,7 @@ export enum Card {
   Countess,
   Princess,
   __LENGTH,
+  __NULL,
 }
 
 // cardCounts follows the order of Card

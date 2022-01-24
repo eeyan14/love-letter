@@ -11,7 +11,7 @@ test("creates new State with correct amounts + randomized order", () => {
 
   // check count of each card type
   for (let i = 0; i < Card.__LENGTH; i++) {
-    const card = Card[i];
+    const card: Card = i;
     const count = state.deck.filter((c) => c == card).length;
     expect(count).toBe(cardAmounts[i]);
   }

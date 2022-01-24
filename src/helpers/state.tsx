@@ -7,7 +7,7 @@ export class State {
   discard: Card[];
   spyPlayed: Player[];
 
-  constructor(playerNum: number, testing: boolean) {
+  constructor(playerNum: number, testing?: boolean) {
     // validate players
     if (playerNum < 2 || playerNum > 6) {
       throw new Error("invalid player number");
@@ -19,7 +19,7 @@ export class State {
     // create deck
     this.deck = [];
     for (let i = 0; i < Card.__LENGTH; i++) {
-      const card = Card[i];
+      const card: Card = i;
       for (let j = 0; j < cardAmounts[i]; j++) {
         this.deck.push(card);
       }
@@ -41,17 +41,25 @@ export class State {
       this.player.push(p);
     }
 
-    !testing && this.deal();
+    this.discard = [];
+    this.removed = Card.__NULL;
+    this.spyPlayed = [];
+
+    if (!testing) {
+      // distrtibute cards to players
+      this.player.forEach((p, i) => this.draw(i));
+
+      // remove first card
+      this.removed = this.deck[this.deck.length - 1];
+      this.deck.pop();
+    }
   }
 
-  private deal() {
-    // distrtibute cards to players
-    this.player.forEach((p, i) => {
-      this.player[i].hand.push(this.deck.pop());
-    });
+  // end condition checks
 
-    // remove first card
-    this.removed = this.deck.pop();
-    this.discard = [];
+  // draw card for player
+  draw(i: number) {
+    this.player[i].hand.push(this.deck[this.deck.length - 1]);
+    this.deck.pop();
   }
 }
