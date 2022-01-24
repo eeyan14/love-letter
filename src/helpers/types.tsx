@@ -18,7 +18,6 @@ export enum Card {
   __NULL,
 }
 
-
 // CONSTANTS
 // cardCounts follows the order of Card
 export const cardAmounts: number[] = [2, 6, 2, 2, 2, 2, 2, 1, 1, 1];
@@ -29,10 +28,10 @@ export function validateAmounts(a: number[]) {
     );
   }
 }
-export const MAX_IN_HAND = 3
+export const MAX_IN_HAND = 3;
 
 // ERRORS
 export const errors = {
   ErrInvalidInput: new Error("invalid input"),
   ErrCannotDraw: new Error("player cannot draw"),
-}
+};

@@ -71,7 +71,7 @@ export class State {
   // draw card for player
   drawCard(i: number) {
     if (this.endCheck()) {
-      throw errors.ErrCannotDraw
+      throw errors.ErrCannotDraw;
     }
 
     // max hand size + cannot draw if eliminated
@@ -79,7 +79,7 @@ export class State {
       this.player[i].eliminated ||
       this.player[i].hand.length === MAX_IN_HAND
     ) {
-      throw errors.ErrCannotDraw
+      throw errors.ErrCannotDraw;
     }
 
     this.player[i].hand.push(this.deck[this.deck.length - 1]);
@@ -90,12 +90,12 @@ export class State {
   discardCard(playerIndex: number, cardIndex: number) {
     const p = this.player[playerIndex];
     if (cardIndex >= p.hand.length) {
-      throw errors.ErrInvalidInput
+      throw errors.ErrInvalidInput;
     }
 
     // only can discard last card if eliminated
     if (cardIndex === 0 && p.hand.length === 1 && !p.eliminated) {
-      throw errors.ErrInvalidInput
+      throw errors.ErrInvalidInput;
     }
 
     this.player[playerIndex].hand.splice(cardIndex, 1);
