@@ -29,23 +29,19 @@ const Card = ({ character, size, hideDescription }: CardProps) => {
     },
     chancellor: {
       reference: "Draw and return 2 cards.",
-      card:
-        "Draw 2 cards. Keep 1 card and put your other 2 on the bottom of the deck in any order.",
+      card: "Draw 2 cards. Keep 1 card and put your other 2 on the bottom of the deck in any order.",
     },
     prince: {
       reference: "Discard a hand and redraw.",
-      card:
-        "Choose any player (including yourself). That player discards their hand and redraws.",
+      card: "Choose any player (including yourself). That player discards their hand and redraws.",
     },
     handmaid: {
       reference: "Immune to other cards until your next turn.",
-      card:
-        "Until your next turn, other players cannot choose your for their card effects.",
+      card: "Until your next turn, other players cannot choose your for their card effects.",
     },
     baron: {
       reference: "Compare hands.",
-      card:
-        "Choose and secretly compare hands with another player. Whoever has teh lower value is out of the round.",
+      card: "Choose and secretly compare hands with another player. Whoever has teh lower value is out of the round.",
     },
     priest: {
       reference: "Look at a hand.",
@@ -53,13 +49,11 @@ const Card = ({ character, size, hideDescription }: CardProps) => {
     },
     guard: {
       reference: "Guess a hand.",
-      card:
-        "Choose another player and character a non-Guard card. If that player has that card, they are out of the round.",
+      card: "Choose another player and character a non-Guard card. If that player has that card, they are out of the round.",
     },
     spy: {
       reference: "Gain favor if no one else plays/discards a Spy.",
-      card:
-        "At the end of the round, if you are the only player in the round who played or discarded a Spy, gain 1 favor token.",
+      card: "At the end of the round, if you are the only player in the round who played or discarded a Spy, gain 1 favor token.",
     },
   };
   const characters = Object.keys(descriptions);

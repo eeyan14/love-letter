@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Card from "./Card";
 import "./ReferenceCard.css";
 
-const ReferenceCard = (props: any) => {
+const ReferenceCard = () => {
   const [showReferenceCard, setShowReferenceCard] = useState<boolean>(false);
 
   return (

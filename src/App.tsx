@@ -8,7 +8,7 @@ function App() {
   const numPlayers = 4;
 
   const renderOtherPlayers = () => {
-    let numPlayersArr = [];
+    const numPlayersArr = [];
     for (let i = 0; i < numPlayers - 1; i++) {
       numPlayersArr.push(i);
     }
