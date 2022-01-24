@@ -28,3 +28,5 @@ export function validateAmounts(a: number[]) {
     );
   }
 }
+
+export const MAX_IN_HAND: number = 3

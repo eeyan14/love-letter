@@ -1,10 +1,10 @@
 import { State } from "./state";
-import { cardAmounts, Card } from "./types";
+import { cardAmounts, Card, MAX_IN_HAND } from "./types";
 const totalPlayers = 5;
 const totalCards = cardAmounts.reduce((a, b) => a + b);
 
 test("creates new State with correct amounts + randomized order", () => {
-  const state = new State(totalPlayers, true);
+  let state = new State(totalPlayers, true);
 
   // check total card amount
   expect(state.deck.length).toBe(totalCards);
@@ -30,17 +30,10 @@ test("creates new State with correct amounts + randomized order", () => {
   expect(state.deck.every((v, i) => state.deck[i] == stateNew.deck[i])).toBe(
     false
   );
-});
 
-test("create new State fails with invalid player numbers", () => {
-  expect(() => new State(1)).toThrow();
-  expect(() => new State(10)).toThrow();
-});
-
-test("deal functions correctly", () => {
-  const state = new State(totalPlayers);
-
+  // test state with dealing
   // check cards are dealt
+  state = new State(totalPlayers);
   expect(state.deck.length).toBe(totalCards - totalPlayers - 1);
 
   // check removed card
@@ -48,4 +41,44 @@ test("deal functions correctly", () => {
 
   // check for empty discard
   expect(state.discard.length).toBe(0);
+});
+
+test("create new State fails with invalid player numbers", () => {
+  expect(() => new State(1)).toThrow();
+  expect(() => new State(10)).toThrow();
+});
+
+test("draw => discard => endCheck throws when running out of cards", () => {
+  const state = new State(totalPlayers);
+  const len = state.deck.length;
+  for (let i = 0; i < len; i++) {
+    expect(() => state.drawCard(0)).not.toThrow();
+    expect(() => state.discardCard(0, 0)).not.toThrow();
+  }
+  expect(() => state.draw(0)).toThrow();
+});
+
+test("draw => endCheck throws when players are eliminated", () => {
+  const state = new State(totalPlayers);
+  state.player.forEach((v, i) => {
+    if (i != 0) {
+      // skip for first player
+      state.player[i].eliminated = true;
+    }
+  });
+  expect(() => state.drawCard(0)).toThrow();
+});
+
+test("draw => draw cannot have more than 3 in hand", () => {
+  const state = new State(totalPlayers);
+  for (let i = 0; i < MAX_IN_HAND - 1; i++) {
+    expect(() => state.drawCard(0)).not.toThrow();
+  }
+  expect(() => state.drawCard(0)).toThrow();
+});
+
+test("discard card invalid conditions", () => {
+  const state = new State(totalPlayers);
+  expect(() => state.discardCard(0, 1)).toThrow();
+  expect(() => state.discardCard(0, 0)).toThrow();
 });

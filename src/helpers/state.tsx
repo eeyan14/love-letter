@@ -1,4 +1,4 @@
-import { Player, Card, cardAmounts, validateAmounts } from "./types";
+import { Player, Card, cardAmounts, validateAmounts, MAX_IN_HAND } from "./types";
 
 export class State {
   player: Player[];
@@ -47,7 +47,7 @@ export class State {
 
     if (!testing) {
       // distrtibute cards to players
-      this.player.forEach((p, i) => this.draw(i));
+      this.player.forEach((p, i) => this.drawCard(i));
 
       // remove first card
       this.removed = this.deck[this.deck.length - 1];
@@ -56,10 +56,38 @@ export class State {
   }
 
   // end condition checks
+  endCheck(): (boolean) {
+    const stillIn = this.player.map((p) => !p.eliminated).filter((x) => x);
+    return this.deck.length === 0 || stillIn.length === 1;
+  }
 
   // draw card for player
-  draw(i: number) {
+  drawCard(i: number) {
+    if (this.endCheck()) {
+      throw new Error("end condition met, cannot draw new card");
+    }
+
+    // max hand size + cannot draw if eliminated
+    if (this.player[i].eleminated || this.player[i].hand.length === MAX_IN_HAND) {
+      throw new Error("player cannot draw");
+    }
+
     this.player[i].hand.push(this.deck[this.deck.length - 1]);
     this.deck.pop();
+  }
+
+  // discard card for player
+  discardCard(playerIndex: number, cardIndex: number) {
+    const p = this.player[playerIndex];
+    if (cardIndex >= p.hand.length) {
+      throw new Error("invalid card index");
+    }
+
+    // only can discard last card if eliminated
+    if (cardIndex === 0 && p.hand.length === 1 && !p.eliminated) {
+      throw new Error("cannot discard last card unless eliminated");
+    }
+
+    this.player[playerIndex].hand.splice(cardIndex, 1);
   }
 }
