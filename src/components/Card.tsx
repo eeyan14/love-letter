@@ -81,7 +81,7 @@ const Card = ({ character, size, hideDescription }: CardProps) => {
     const highestNumber = 9;
     return Object.keys(descriptions).map((key, i) => {
       return (
-        <p>
+        <p key={i}>
           <span className="medieval">
             {highestNumber - i}–{titleize(key)}
           </span>{" "}
