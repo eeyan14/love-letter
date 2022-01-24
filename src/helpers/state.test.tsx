@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { cardAmounts, Card, MAX_IN_HAND } from "./types";
+import { cardAmounts, Card, MAX_IN_HAND, errors } from "./types";
 const totalPlayers = 5;
 const totalCards = cardAmounts.reduce((a, b) => a + b);
 
@@ -44,8 +44,8 @@ test("creates new State with correct amounts + randomized order", () => {
 });
 
 test("create new State fails with invalid player numbers", () => {
-  expect(() => new State(1)).toThrow();
-  expect(() => new State(10)).toThrow();
+  expect(() => new State(1)).toThrow(errors.ErrInvalidInput);
+  expect(() => new State(10)).toThrow(errors.ErrInvalidInput);
 });
 
 test("draw => discard => endCheck throws when running out of cards", () => {
@@ -55,7 +55,7 @@ test("draw => discard => endCheck throws when running out of cards", () => {
     expect(() => state.drawCard(0)).not.toThrow();
     expect(() => state.discardCard(0, 0)).not.toThrow();
   }
-  expect(() => state.draw(0)).toThrow();
+  expect(() => state.drawCard(0)).toThrow(errors.ErrCannotDraw);
 });
 
 test("draw => endCheck throws when players are eliminated", () => {
@@ -66,7 +66,7 @@ test("draw => endCheck throws when players are eliminated", () => {
       state.player[i].eliminated = true;
     }
   });
-  expect(() => state.drawCard(0)).toThrow();
+  expect(() => state.drawCard(0)).toThrow(errors.ErrCannotDraw);
 });
 
 test("draw => draw cannot have more than 3 in hand", () => {
@@ -74,11 +74,11 @@ test("draw => draw cannot have more than 3 in hand", () => {
   for (let i = 0; i < MAX_IN_HAND - 1; i++) {
     expect(() => state.drawCard(0)).not.toThrow();
   }
-  expect(() => state.drawCard(0)).toThrow();
+  expect(() => state.drawCard(0)).toThrow(errors.ErrCannotDraw);
 });
 
 test("discard card invalid conditions", () => {
   const state = new State(totalPlayers);
-  expect(() => state.discardCard(0, 1)).toThrow();
-  expect(() => state.discardCard(0, 0)).toThrow();
+  expect(() => state.discardCard(0, 1)).toThrow(errors.ErrInvalidInput);
+  expect(() => state.discardCard(0, 0)).toThrow(errors.ErrInvalidInput);
 });
