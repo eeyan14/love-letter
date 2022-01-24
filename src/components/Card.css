@@ -1,21 +1,42 @@
 .card {
   --height-multiplier: 1.4;
-  background: #F4DE9F;
+  --width-xs: 100px;
+  --width-s: 150px;
+  --width-m: 200px;
+  --width-l: 250px;
+  --width-xl: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f4de9f;
   margin-bottom: var(--base-spacing);
   border-radius: var(--base-spacing);
   box-sizing: border-box;
 }
 
-.card.size-regular {
-  --width-regular: 300px;
-  width: var(--width-regular);
-  height: calc(var(--height-multiplier) * var(--width-regular));
+.card.size-xs {
+  width: var(--width-xs);
+  height: calc(var(--height-multiplier) * var(--width-xs));
 }
 
-.card.size-small {
-  --width-small: 100px;
-  width: var(--width-small);
-  height: calc(var(--height-multiplier) * var(--width-small));
+.card.size-s {
+  width: var(--width-s);
+  height: calc(var(--height-multiplier) * var(--width-s));
+}
+
+.card.size-m {
+  width: var(--width-m);
+  height: calc(var(--height-multiplier) * var(--width-m));
+}
+
+.card.size-l {
+  width: var(--width-l);
+  height: calc(var(--height-multiplier) * var(--width-l));
+}
+
+.card.size-xl {
+  width: var(--width-xl);
+  height: calc(var(--height-multiplier) * var(--width-xl));
 }
 
 .card.character-unknown {

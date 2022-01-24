@@ -1,0 +1,30 @@
+.reference-card-container {
+  position: relative;
+}
+
+.reference-card-container .card {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translateY(calc(100% + var(--base-spacing) * 2));
+}
+
+.reference-card-container button {
+  display: inline-block;
+  border: none;
+  padding: calc(var(--base-spacing) / 2);
+  margin: 0;
+  width: fit-content;
+  text-decoration: none;
+  background: #617798;
+  color: white;
+  font-family: var(--font-standard);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  transition: 500ms ease;
+}
+
+.reference-card-container button.selected {
+  background: #006af5;
+}

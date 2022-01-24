@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 
 import Card from "./components/Card";
+import ReferenceCard from "./components/ReferenceCard";
 
 function App() {
   const numPlayers = 4;
@@ -12,7 +13,7 @@ function App() {
       numPlayersArr.push(i);
     }
     return numPlayersArr.map((key) => {
-      return <Card key={key} character="unknown" size="small" />;
+      return <Card key={key} character="unknown" size="xs" />;
     });
   };
 
@@ -20,19 +21,32 @@ function App() {
     <div className="love-letter-app">
       <header>
         <h1>Love Letter</h1>
+
+        <div className="help">
+          <ReferenceCard />
+        </div>
       </header>
 
-      <div className="love-letter-app-main">
-        <section>{renderOtherPlayers()}</section>
+      <main>
+        <div className="column left">
+          <section className="deck">
+            <p>Played/Discarded</p>
+            <Card character="guard" size="s" hideDescription={true} />
+          </section>
 
-        <section>
-          <Card character="guard" size="regular" />
-        </section>
+          <section className="deck">
+            <p>Deck</p>
+            <Card character="unknown" size="s" />
+          </section>
+        </div>
 
-        <section>
-          <Card character="reference" size="regular" />
-        </section>
-      </div>
+        <div className="column right">
+          <section className="other-players">{renderOtherPlayers()}</section>
+          <section className="my-cards">
+            <Card character="guard" size="l" />
+          </section>
+        </div>
+      </main>
     </div>
   );
 }
