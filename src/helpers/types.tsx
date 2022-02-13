@@ -34,4 +34,9 @@ export const MAX_IN_HAND = 3;
 export const errors = {
   ErrInvalidInput: new Error("invalid input"),
   ErrCannotDraw: new Error("player cannot draw"),
+  ErrEndTurnNotCalled: new Error("players turn not ended yet"),
+  ErrEndTurnTooManyCards: new Error("cannot end turn: too many cards in hand"),
+  ErrEndTurnEliminated: new Error(
+    "cannot end turn: eliminated player has cards"
+  ),
 };

@@ -82,3 +82,23 @@ test("discard card invalid conditions", () => {
   expect(() => state.discardCard(0, 1)).toThrow(errors.ErrInvalidInput);
   expect(() => state.discardCard(0, 0)).toThrow(errors.ErrInvalidInput);
 });
+
+test("draw => end turn fail conditions", () => {
+  const state = new State(totalPlayers);
+  expect(() => state.drawCard(0)).not.toThrow();
+
+  // expect drawCard to fail because player drawing is not the current player
+  expect(() => state.drawCard(1)).toThrow();
+
+  // expect endTurn to fail because player has two cards in hand
+  expect(() => state.endTurn()).toThrow();
+  expect(() => state.discardCard(0, 0)).not.toThrow();
+
+  // expect endTurn to fail because eliminated player still has card in hand
+  state.player[1].eliminated = true;
+  expect(() => state.endTurn()).toThrow();
+  expect(() => state.discardCard(1, 0)).not.toThrow();
+
+  // success
+  expect(() => state.endTurn()).not.toThrow();
+})
