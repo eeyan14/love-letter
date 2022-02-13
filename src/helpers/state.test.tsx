@@ -53,7 +53,13 @@ test("draw => discard => endCheck throws when running out of cards", () => {
   const len = state.deck.length;
   for (let i = 0; i < len; i++) {
     expect(() => state.drawCard(0)).not.toThrow();
-    expect(() => state.discardCard(0, 0)).not.toThrow();
+
+    // don't discard princess
+    let index = 0;
+    if (state.player[0].hand[0] == Card.Princess) {
+      index = 1;
+    }
+    expect(() => state.discardCard(0, index)).not.toThrow();
   }
   expect(() => state.drawCard(0)).toThrow(errors.ErrCannotDraw);
 });
@@ -88,15 +94,15 @@ test("draw => end turn fail conditions", () => {
   expect(() => state.drawCard(0)).not.toThrow();
 
   // expect drawCard to fail because player drawing is not the current player
-  expect(() => state.drawCard(1)).toThrow();
+  expect(() => state.drawCard(1)).toThrow(errors.ErrEndTurnNotCalled);
 
   // expect endTurn to fail because player has two cards in hand
-  expect(() => state.endTurn()).toThrow();
+  expect(() => state.endTurn()).toThrow(errors.ErrEndTurnTooManyCards);
   expect(() => state.discardCard(0, 0)).not.toThrow();
 
   // expect endTurn to fail because eliminated player still has card in hand
   state.player[1].eliminated = true;
-  expect(() => state.endTurn()).toThrow();
+  expect(() => state.endTurn()).toThrow(errors.ErrEndTurnEliminated);
   expect(() => state.discardCard(1, 0)).not.toThrow();
 
   // success

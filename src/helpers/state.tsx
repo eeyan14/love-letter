@@ -9,12 +9,12 @@ import {
 
 export class State {
   player: Player[];
-  deck: Card[];
-  removed: Card;
   discard: Card[];
-  spyPlayed: Player[];
-  private currentTurn: number | null;
+  spyPlayed: number[];
+  currentTurn: number | null;
   private init: boolean;
+  private removed: Card;
+  private deck: Card[];
 
   constructor(playerNum: number, testing?: boolean) {
     // validate players
@@ -81,6 +81,7 @@ export class State {
 
     if (this.currentTurn == null && !this.init) {
       this.currentTurn = i;
+      this.player[i].immune = false; // handmaid immunity ends at the start of players next turn
     } else if (this.currentTurn != i && !this.init) {
       throw errors.ErrEndTurnNotCalled;
     }
@@ -104,6 +105,12 @@ export class State {
       throw errors.ErrInvalidInput;
     }
 
+    // handle special case if princess is discarded
+    if (this.player[playerIndex].hand[cardIndex] == Card.Princess) {
+      this.player[playerIndex].eliminated = true;
+    }
+
+    // TODO: allow discard if prince is used
     // only can discard last card if eliminated
     if (cardIndex === 0 && p.hand.length === 1 && !p.eliminated) {
       throw errors.ErrInvalidInput;
@@ -126,5 +133,70 @@ export class State {
       }
     });
     this.currentTurn = null;
+  }
+
+  // play a card from the current player's hand
+  playCard(cardIndex: number, targetPlayer?: number) {
+    // validate enough cards to play
+    if (
+      this.currentTurn != null &&
+      this.player[this.currentTurn].hand.length != 2
+    ) {
+      throw errors.ErrCannotPlay;
+    }
+
+    // validate card index
+    if (cardIndex != 0 || cardIndex != 1) {
+      throw errors.ErrInvalidInput;
+    }
+
+    // TODO: validate additional input parameters
+
+    // TODO: validate if target player is immune or not
+
+    switch (this.player[this.currentTurn].hand[cardIndex]) {
+      case Card.Spy:
+        // no immediate affect when played, comes into play at the very end
+        this.spyPlayed.push(this.currentTurn)
+        break;
+      case Card.Guard:
+        // if played, can try to guess another players hand other than guard. if correct, other player is eliminated
+        break;
+      case Card.Priest:
+        // if played, look at someone elses hand
+        break;
+      case Card.Baron:
+        // if played, compare hands with another player. lower value card is eliminated
+        break;
+      case Card.Handmaid:
+        // if played, other players cannot choose player to be affected (until start of their next turn)
+        this.player[this.currentTurn].immune = true
+        break;
+      case Card.Prince:
+        // if countess is in hand, must play countess
+        if (this.player[this.currentTurn].hand.includes(Card.Countess)) {
+          throw errors.ErrCannotPlay
+        }
+        // if played, can cause another player to discard hand
+        break;
+      case Card.Chancellor:
+        // if played, draw two cards, choose one, place other two at bottom of deck in any order
+        break;
+      case Card.King:
+        // if countess is in hand, must play countess
+        if (this.player[this.currentTurn].hand.includes(Card.Countess)) {
+          throw errors.ErrCannotPlay
+        }
+        // if played, trade hands with another player
+        break;
+      case Card.Countess:
+        // no effect when played
+        break;
+      case Card.Princess:
+        // if princess is played, player is eliminated
+        // implemented in discardCard
+        break;
+    }
+    this.discardCard(this.currentTurn, cardIndex)
   }
 }
