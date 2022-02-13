@@ -1,18 +1,22 @@
-.card {
+.card-container {
   --height-multiplier: 1.4;
   --width-xs: 100px;
   --width-s: 150px;
   --width-m: 200px;
   --width-l: 250px;
   --width-xl: 300px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #f4de9f;
   margin-bottom: var(--base-spacing);
-  border-radius: var(--base-spacing);
   box-sizing: border-box;
+}
+
+.card {
+  display: flex;
+  position: relative;
+  background: #f4de9f;
+  border-radius: var(--base-spacing);
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  border: 1px solid #617798;
 }
 
 .card.size-xs {
@@ -40,30 +44,51 @@
   height: calc(var(--height-multiplier) * var(--width-xl));
 }
 
-.card.character-unknown {
+.card .card-front,
+.card .card-back {
+  flex: 1;
   display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card .card-back {
   align-items: center;
-  justify-content: center;
+  transform: rotateY(180deg);
 }
 
-.card:not(.character-unknown) {
-  padding: calc(var(--base-spacing) * 1.5);
+.card:not(.shown) {
+  /* TODO figure out what css is needed for this transition */
+  transform: rotateY(180deg);
 }
 
-.card.size-xs:not(.character-unknown),
-.card.size-s:not(.character-unknown),
-.card.size-m:not(.character-unknown) {
-  padding: var(--base-spacing);
+card:not(.shown) .card-back {
+  transform: none;
 }
 
-.card img.card-back {
+.card .card-back-img {
   width: 70%;
   height: auto;
+  margin: auto 0;
 }
 
 .card .medieval {
   font-size: 1.2rem;
   font-family: var(--font-medieval);
+}
+
+.card .front-content {
+  padding: calc(var(--base-spacing) * 1.5);
+}
+
+.card.size-xs .front-content,
+.card.size-s .front-content,
+.card.size-m .front-content {
+  padding: var(--base-spacing);
 }
 
 .card .card-header {

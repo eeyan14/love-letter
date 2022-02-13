@@ -53,8 +53,9 @@
 }
 
 .love-letter-app .column.left {
-  align-items: center;
-  justify-content: center;
+  display: table;
+  /* align-items: center;
+  justify-content: center; */
 }
 
 .love-letter-app .column.right {

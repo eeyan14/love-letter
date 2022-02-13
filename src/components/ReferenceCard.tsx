@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Card from "./Card";
+import CharacterCard from "./CharacterCard";
 import "./ReferenceCard.css";
 
 const ReferenceCard = () => {
-  const [showReferenceCard, setShowReferenceCard] = useState<boolean>(true);
+  const [showReferenceCard, setShowReferenceCard] = useState<boolean>(false);
 
   return (
     <div className="reference-card-container">
@@ -17,7 +17,7 @@ const ReferenceCard = () => {
       {showReferenceCard && (
         <div className="popup">
           <div className="popup-arrow" />
-          <Card character="reference" size="xl" />
+          <CharacterCard character="Reference" size="xl" shown={true} />
         </div>
       )}
     </div>

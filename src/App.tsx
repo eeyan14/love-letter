@@ -1,8 +1,13 @@
-import React from "react";
-import "./App.css";
+import React, { useState } from "react";
+import "App.css";
 
-import Card from "./components/Card";
+/* Components */
+import CharacterCard from "./components/CharacterCard";
+import Deck from "./components/Deck";
 import ReferenceCard from "./components/ReferenceCard";
+
+/* Helpers */
+import { State } from "./helpers/state";
 
 function App() {
   const numPlayers = 4;
@@ -13,9 +18,14 @@ function App() {
       numPlayersArr.push(i);
     }
     return numPlayersArr.map((key) => {
-      return <Card key={key} character="unknown" size="xs" />;
+      return (
+        <CharacterCard key={key} character="Guard" shown={false} size="xs" />
+      );
     });
   };
+
+  const [gameState, setGameState] = useState<State>(new State(4));
+  console.log("gameState", gameState);
 
   return (
     <div className="love-letter-app">
@@ -31,19 +41,21 @@ function App() {
         <div className="column left">
           <section className="deck">
             <p>Played/Discarded</p>
-            <Card character="baron" size="s" hideDescription={true} />
+            <CharacterCard
+              character="Baron"
+              size="s"
+              shown={true}
+              hideDescription={true}
+            />
           </section>
 
-          <section className="deck">
-            <p>Deck</p>
-            <Card character="unknown" size="s" />
-          </section>
+          <Deck deck={gameState.deck} />
         </div>
 
         <div className="column right">
           <section className="other-players">{renderOtherPlayers()}</section>
           <section className="my-cards">
-            <Card character="guard" size="l" />
+            <CharacterCard character="Guard" size="l" shown={true} />
           </section>
         </div>
       </main>

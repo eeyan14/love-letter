@@ -53,7 +53,7 @@ export class State {
     this.spyPlayed = [];
 
     if (!testing) {
-      // distrtibute cards to players
+      // distribute cards to players
       this.player.forEach((p, i) => this.drawCard(i));
 
       // remove first card
