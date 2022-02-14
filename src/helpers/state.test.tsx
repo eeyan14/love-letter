@@ -100,10 +100,10 @@ test("draw => end turn fail conditions", () => {
   expect(() => state.endTurn()).toThrow(errors.ErrEndTurnTooManyCards);
   expect(() => state.discardCard(0, 0)).not.toThrow();
 
-  // expect endTurn to fail because eliminated player still has card in hand
+  // expect endTurn to clean up eliminated players card
   state.player[1].eliminated = true;
-  expect(() => state.endTurn()).toThrow(errors.ErrEndTurnEliminated);
-  expect(() => state.discardCard(1, 0)).not.toThrow();
+  expect(() => state.endTurn()).not.toThrow();
+  expect(state.player[1].hand.length).toBe(0);
 
   // success
   expect(() => state.endTurn()).not.toThrow();

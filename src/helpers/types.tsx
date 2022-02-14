@@ -19,6 +19,13 @@ export enum Card {
   __NULL,
 }
 
+export enum Status {
+  Init,
+  Draw2Pick1,
+  DiscardAndDraw,
+  __NULL,
+}
+
 // CONSTANTS
 // cardCounts follows the order of Card
 export const cardAmounts: number[] = [2, 6, 2, 2, 2, 2, 2, 1, 1, 1];
@@ -36,9 +43,9 @@ export const errors = {
   ErrInvalidInput: new Error("invalid input"),
   ErrCannotDraw: new Error("player cannot draw"),
   ErrCannotPlay: new Error("player cannot play card"),
+  ErrCannotInsert: new Error("player cannot insert card to bottom of deck"),
   ErrEndTurnNotCalled: new Error("player turn not ended yet"),
   ErrEndTurnTooManyCards: new Error("cannot end turn: too many cards in hand"),
-  ErrEndTurnEliminated: new Error(
-    "cannot end turn: eliminated player has cards"
-  ),
+  ErrInvalidPlayer: new Error("invalid target player"),
+  ErrPlayerImmune: new Error("player is immune"),
 };
