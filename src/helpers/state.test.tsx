@@ -107,4 +107,4 @@ test("draw => end turn fail conditions", () => {
 
   // success
   expect(() => state.endTurn()).not.toThrow();
-})
+});

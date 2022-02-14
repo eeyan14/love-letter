@@ -151,10 +151,15 @@ export class State {
     if (this.status != Status.Draw2Pick1) {
       throw errors.ErrCannotInsert;
     }
-    if (cardIndex >= this.player[this.currentTurn].hand.length || this.player[this.currentTurn].hand.length == 1) {
+    if (
+      cardIndex >= this.player[this.currentTurn].hand.length ||
+      this.player[this.currentTurn].hand.length == 1
+    ) {
       throw errors.ErrInvalidInput;
     }
-    this.deck.unshift(...this.player[this.currentTurn].hand.splice(cardIndex, 1))
+    this.deck.unshift(
+      ...this.player[this.currentTurn].hand.splice(cardIndex, 1)
+    );
   }
 
   // play a card from the current player's hand
