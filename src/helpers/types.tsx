@@ -35,7 +35,7 @@ export const CardDescriptions: {
   Guard: {
     points: 1,
     reference: "Guess a hand.",
-    card: "Choose another player and character a non-Guard card. If that player has that card, they are out of the round.",
+    card: "Name a non-Guard card and choose another player. If that player has that card, they are out of the round.",
     color: "#005f73",
   },
   Priest: {
@@ -47,7 +47,7 @@ export const CardDescriptions: {
   Baron: {
     points: 3,
     reference: "Compare hands.",
-    card: "Choose and secretly compare hands with another player. Whoever has teh lower value is out of the round.",
+    card: "Choose and secretly compare hands with another player. Whoever has the lower value is out of the round.",
     color: "#94d2bd",
   },
   Handmaid: {
