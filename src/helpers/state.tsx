@@ -12,10 +12,10 @@ export class State {
   player: Player[];
   discard: Card[];
   spyPlayed: number[];
-  currentTurn: number | null;
+  currentTurn: number;
   status: Status;
-  private removed: Card;
-  private deck: Card[];
+  removed: Card;
+  deck: Card[];
 
   constructor(playerNum: number, testing?: boolean) {
     // validate players
@@ -47,6 +47,7 @@ export class State {
       const p: Player = {
         eliminated: false,
         hand: [],
+        immune: false,
       };
       this.player.push(p);
     }
@@ -54,7 +55,7 @@ export class State {
     this.discard = [];
     this.removed = Card.__NULL;
     this.spyPlayed = [];
-    this.currentTurn = null;
+    this.currentTurn = NaN;
     this.status = Status.Init;
 
     if (!testing) {
@@ -80,7 +81,7 @@ export class State {
       throw errors.ErrCannotDraw;
     }
 
-    if (this.currentTurn == null && this.status != Status.Init) {
+    if (isNaN(this.currentTurn) && this.status != Status.Init) {
       this.currentTurn = i;
       this.player[i].immune = false; // handmaid immunity ends at the start of players next turn
     } else if (
@@ -138,12 +139,12 @@ export class State {
 
       // clean up to make sure eliminated players have discarded their cards
       if (p.eliminated && p.hand.length != 0) {
-        this.player[i].hand.forEach((e) => {
+        this.player[i].hand.forEach(() => {
           this.discardCard(i, 0);
         });
       }
     });
-    this.currentTurn = null;
+    this.currentTurn = NaN;
     this.status = Status.__NULL;
   }
 
@@ -168,19 +169,19 @@ export class State {
   // - index 1 is the target player but may not exist
   playCard(
     cardIndex: number,
-    targetPlayer?: null | number,
-    guess?: null | Card
+    targetPlayer?: number,
+    guess?: Card
   ): Player[] {
     // validate enough cards to play
     if (
-      this.currentTurn != null &&
+      !isNaN(this.currentTurn) &&
       this.player[this.currentTurn].hand.length != 2
     ) {
       throw errors.ErrCannotPlay;
     }
 
     // validate card index
-    if (cardIndex != 0 || cardIndex != 1) {
+    if (cardIndex != 0 && cardIndex != 1) {
       throw errors.ErrInvalidInput;
     }
 
@@ -198,7 +199,7 @@ export class State {
     ) {
       // validate valid player
       if (
-        targetPlayer == null ||
+        targetPlayer == undefined ||
         targetPlayer >= this.player.length ||
         this.player[targetPlayer].eliminated
       ) {
@@ -228,6 +229,7 @@ export class State {
     // play card
     this.discardCard(this.currentTurn, cardIndex);
 
+    const target: number = targetPlayer || NaN;
     // affects of played card
     switch (card) {
       case Card.Spy:
@@ -236,19 +238,19 @@ export class State {
         break;
       case Card.Guard:
         // if played, can try to guess another players hand other than guard. if correct, other player is eliminated
-        this.player[targetPlayer].eliminated =
-          this.player[targetPlayer].hand[0] == guess;
+        this.player[target].eliminated =
+          this.player[target].hand[0] == guess;
         break;
       case Card.Priest:
-        // if played, look at someone elses hand (targetPlayer hand is returned in function return)
+        // if played, look at someone elses hand (target hand is returned in function return)
         break;
       case Card.Baron:
         // if played, compare hands with another player. lower value card is eliminated
         this.player[this.currentTurn].eliminated =
           this.player[this.currentTurn].hand[0] <
-          this.player[targetPlayer].hand[0];
-        this.player[targetPlayer].eliminated =
-          this.player[targetPlayer].hand[0] <
+          this.player[target].hand[0];
+        this.player[target].eliminated =
+          this.player[target].hand[0] <
           this.player[this.currentTurn].hand[0];
         break;
       case Card.Handmaid:
@@ -258,11 +260,11 @@ export class State {
       case Card.Prince:
         // if played, can cause another player to discard hand
         this.status = Status.DiscardAndDraw;
-        this.discardCard(targetPlayer, 0);
+        this.discardCard(target, 0);
 
         // if not eliminated, draw new card
-        if (!this.player[targetPlayer].eliminated) {
-          this.drawCard(targetPlayer);
+        if (!this.player[target].eliminated) {
+          this.drawCard(target);
         }
         this.status = Status.__NULL;
         break;
@@ -274,8 +276,8 @@ export class State {
         break;
       case Card.King:
         // if played, trade hands with another player
-        this.player[this.currentTurn].hand = this.player[targetPlayer].hand;
-        this.player[targetPlayer].hand = hand.filter((c) => c != Card.King);
+        this.player[this.currentTurn].hand = this.player[target].hand;
+        this.player[target].hand = hand.filter((c) => c != Card.King);
         break;
       case Card.Countess:
         // no effect when played
@@ -286,7 +288,7 @@ export class State {
     }
 
     const affectedPlayers = [this.player[this.currentTurn]];
-    targetPlayer != null && affectedPlayers.push(this.player[targetPlayer]);
+    target != undefined && affectedPlayers.push(this.player[target]);
     return affectedPlayers;
   }
 }
