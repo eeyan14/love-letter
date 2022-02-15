@@ -1,76 +1,86 @@
 import React, { useState } from "react";
-import CharacterCard from "./CharacterCard";
-import { Card } from "../helpers/types";
+import styled, { css } from "styled-components";
+import CharacterCard from "components/CharacterCard";
+import { Card } from "helpers/types";
+import { AppSection, TextStandard } from "helpers/styles";
 import "App.css";
-import "components/Card.css";
+
+const CardInDeck = styled("div")<{ offsetTop: number }>`
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: inherit;
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  background: none;
+  ${(props) => `top: ${props.offsetTop}px;`}
+`;
 
 type DeckProps = {
   deck: Card[];
+  deckType: string; // "deck", "discard"
 };
 
-const Deck = ({ deck }: DeckProps) => {
+const Deck = ({ deck, deckType }: DeckProps) => {
   const offset = 3; // px
-  const cardStyle: React.CSSProperties = {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    padding: "inherit",
-    border: "none",
-    outline: "none",
-    font: "inherit",
-    color: "inherit",
-    background: "none",
-  };
 
+  const showCards = deckType === "discard";
   const [showTopCard, setShowTopCard] = useState<boolean>(false);
 
+  const handleDraw = () => {
+    // TODO
+    setShowTopCard(!showTopCard);
+  };
+
+  const renderCards = () => {
+    if (deck.length === 0) {
+      return (
+        <CardInDeck offsetTop={0}>
+          <CharacterCard character="Blank" size="s" showCharacter={showCards} />
+        </CardInDeck>
+      );
+    }
+
+    return deck.map((card, i) => {
+      const offsetTop = offset * (deck.length - i);
+      if (i + 1 === deck.length && deckType === "deck") {
+        // this is the top card and can be drawn, render it as a button
+        return (
+          <CardInDeck key={i} onClick={handleDraw} offsetTop={offsetTop}>
+            <CharacterCard
+              character={Card[card]}
+              size="s"
+              showCharacter={showTopCard}
+            />
+          </CardInDeck>
+        );
+      } else {
+        return (
+          <CardInDeck offsetTop={offsetTop} key={i}>
+            <CharacterCard
+              character={Card[card]}
+              size="s"
+              showCharacter={showCards}
+            />
+          </CardInDeck>
+        );
+      }
+    });
+  };
+
   return (
-    <section className="deck">
-      <p>Deck</p>
+    <AppSection id={`deck-${deckType}`} sectionType="deck">
+      <TextStandard>{deckType === "discard" ? "Discard" : "Deck"}</TextStandard>
 
       <div
-        className="deck-container"
+        id={`deck-${deckType}-container`}
         style={{ position: "relative", width: "100%" }}
       >
-        {deck.map((card, i) => {
-          const thisCardStyle: React.CSSProperties = {
-            ...cardStyle,
-            top: offset * (deck.length - i),
-          };
-
-          if (i + 1 === deck.length) {
-            // this is the last card, render it as a button
-            return (
-              <button
-                key={i}
-                className="card-in-deck"
-                style={thisCardStyle}
-                onClick={() => setShowTopCard(!showTopCard)}
-              >
-                <CharacterCard
-                  character={Card[card]}
-                  size="s"
-                  shown={showTopCard}
-                  hideDescription={true}
-                />
-              </button>
-            );
-          } else {
-            console.log(i, cardStyle.top);
-            return (
-              <div key={i} className="card-in-deck" style={thisCardStyle}>
-                <CharacterCard
-                  character={Card[card]}
-                  size="s"
-                  shown={false}
-                  hideDescription={true}
-                />
-              </div>
-            );
-          }
-        })}
+        {renderCards()}
       </div>
-    </section>
+    </AppSection>
   );
 };
 

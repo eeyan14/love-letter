@@ -17,7 +17,7 @@ const ReferenceCard = () => {
       {showReferenceCard && (
         <div className="popup">
           <div className="popup-arrow" />
-          <CharacterCard character="Reference" size="xl" shown={true} />
+          <CharacterCard character="Reference" size="xl" showCharacter={true} />
         </div>
       )}
     </div>
